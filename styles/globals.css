@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+   .menu-hover{
+    @apply hover:bg-gray-100 rounded-full p-9 ease-in duration-[250ms] hover:scale-[.85]
+   }
+ }
