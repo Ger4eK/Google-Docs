@@ -6,10 +6,21 @@ import Image from 'next/image';
 import Header from '../components/Header';
 import { useSession } from 'next-auth/react';
 import Login from '../components/Login';
+import { async } from '@firebase/util';
 import { getSession } from 'next-auth/react';
+import { useState } from 'react';
+import Modal from '../components/Modal';
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
+  const [showModal, setShowModal] = useState(true);
+
+  const handleOnShowModal = () => {
+    setShowModal(true);
+  };
+  const handleOnHideModal = () => {
+    setShowModal(false);
+  };
 
   if (!session) return <Login />;
 
@@ -21,6 +32,12 @@ const Home: NextPage = () => {
       </Head>
       <Header />
 
+      {showModal ? (
+        <Modal onHide={handleOnHideModal} />
+      ) : (
+        ''
+      )}
+
       <section className='bg-[#F8F9FA] pb-10 px-10'>
         <div className='max-w-3xl mx-auto'>
           <div className='flex items-center justify-between py-6'>
@@ -29,7 +46,7 @@ const Home: NextPage = () => {
               <DotsVerticalIcon className='h-8 w-8 text-gray-400' />
             </button>
           </div>
-          <div>
+          <div onClick={handleOnShowModal}>
             <div className='relative h-52 w-40 border-2 hover:border-googleDocs cursor-pointer'>
               <Image src='https://links.papareact.com/pju' layout='fill' />
             </div>
