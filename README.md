@@ -2,7 +2,7 @@
 
 - Next.js
 - Tailwind CSS
-- Material-Tailwind
 - Firebase
 - Firebase Adapter
+- React Firebase Hooks
 - Next Auth

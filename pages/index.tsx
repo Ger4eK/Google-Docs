@@ -6,14 +6,40 @@ import Image from 'next/image';
 import Header from '../components/Header';
 import { useSession } from 'next-auth/react';
 import Login from '../components/Login';
-import { async } from '@firebase/util';
 import { getSession } from 'next-auth/react';
 import { useState } from 'react';
 import Modal from '../components/Modal';
+import { db } from '../firebase.config';
+import {
+  addDoc,
+  collection,
+  orderBy,
+  query,
+  serverTimestamp,
+} from 'firebase/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import DocumentRow from '../components/DocumentRow';
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
-  const [showModal, setShowModal] = useState(true);
+
+  if (!session) return <Login />;
+
+  const collectionRef = collection(db, 'userDocs', session.user.email, 'docs');
+  const [showModal, setShowModal] = useState(false);
+
+  const docsQuery = query(collectionRef, orderBy('timestamp', 'desc'));
+  const [snapshot] = useCollection(docsQuery);
+
+  console.log('snapshot', snapshot);
+
+  const createDocument = (input: string) => {
+    if (!input) return;
+
+    addDoc(collectionRef, { fileName: input, timestamp: serverTimestamp() });
+
+    setShowModal(false);
+  };
 
   const handleOnShowModal = () => {
     setShowModal(true);
@@ -21,8 +47,6 @@ const Home: NextPage = () => {
   const handleOnHideModal = () => {
     setShowModal(false);
   };
-
-  if (!session) return <Login />;
 
   return (
     <div className=''>
@@ -33,7 +57,7 @@ const Home: NextPage = () => {
       <Header />
 
       {showModal ? (
-        <Modal onHide={handleOnHideModal} />
+        <Modal onHide={handleOnHideModal} createDocument={createDocument} />
       ) : (
         ''
       )}
@@ -46,13 +70,14 @@ const Home: NextPage = () => {
               <DotsVerticalIcon className='h-8 w-8 text-gray-400' />
             </button>
           </div>
-          <div onClick={handleOnShowModal}>
-            <div className='relative h-52 w-40 border-2 hover:border-googleDocs cursor-pointer'>
+          <div>
+            <div
+              onClick={handleOnShowModal}
+              className='relative h-52 w-40 border-2 hover:border-googleDocs cursor-pointer'
+            >
               <Image src='https://links.papareact.com/pju' layout='fill' />
             </div>
-            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>
-              Blank
-            </p>
+            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'></p>
           </div>
         </div>
       </section>
@@ -62,8 +87,16 @@ const Home: NextPage = () => {
           <div className='flex items-center justify-between pb-5'>
             <h2 className=' font-medium flex-grow'>My Documents</h2>
             <p className=' mr-12'>Date created</p>
-            <FolderIcon className='h-8 w-8 text-gray-400' />
+            <FolderIcon className='h-8 w-8 text-gray-400 mr-4' />
           </div>
+          {snapshot?.docs.map((doc) => (
+            <DocumentRow
+              key={doc.id}
+              id={doc.id}
+              fileName={doc.data().fileName}
+              date={doc.data().timestamp}
+            />
+          ))}
         </div>
       </section>
     </div>

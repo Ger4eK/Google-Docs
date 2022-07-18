@@ -8,11 +8,12 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@next-auth/firebase-adapter": "^0.1.2-pr.183-76202b42.8",
-    "firebase": "^9.6.7",
+    "firebase": "^9.9.0",
     "next": "latest",
     "next-auth": "^4.2.1",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "react-firebase-hooks": "^5.0.3"
   },
   "devDependencies": {
     "@types/node": "17.0.35",

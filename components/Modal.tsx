@@ -2,16 +2,11 @@ import { useState } from 'react';
 
 interface Props {
   onHide: () => void;
+  createDocument: (input: string) => void;
 }
 
-const Modal = ({ onHide }: Props) => {
-  const [input, setInput] = useState('');
-  console.log(input);
-
-  const createDocument = () => {
-    return onHide();
-  };
-
+const Modal = ({ onHide, createDocument }: Props) => {
+  const [input, setInput] = useState<string>('');
   return (
     <div className='   bg-zinc-200 opacity-80 fixed inset-0 z-40   '>
       <div className='flex h-screen justify-center items-center '>
@@ -23,7 +18,7 @@ const Modal = ({ onHide }: Props) => {
               type='text'
               className='outline-none w-full'
               placeholder='Enter name of document...'
-              onKeyDown={(e) => e.key === 'Enter' && createDocument()}
+              onKeyDown={(e) => e.key === 'Enter' && createDocument(input)}
             />
           </div>
           <div className='flex justify-center gap-5'>
@@ -34,7 +29,7 @@ const Modal = ({ onHide }: Props) => {
               Cancel
             </button>
             <button
-              onClick={createDocument}
+              onClick={(e) => createDocument(input)}
               className=' rounded-md px-6 py-2 text-white bg-googleDocs hover:shadow-lg'
             >
               Create
