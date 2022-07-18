@@ -1,7 +1,10 @@
 import { MenuIcon, SearchIcon } from '@heroicons/react/outline';
 import { DocumentTextIcon, ViewGridIcon } from '@heroicons/react/solid';
+import { useSession } from 'next-auth/react';
 
 const Header = () => {
+  const { data: session } = useSession();
+
   return (
     <div className=' sticky top-0 z-50 flex items-center px-1 sm:px-5 py-1 shadow-md bg-white'>
       <button className='relative menu-hover  text-gray-400'>
@@ -29,7 +32,7 @@ const Header = () => {
       <img
         loading='lazy'
         className='cursor-pointer h-12 w-12 rounded-full ml-2'
-        src='https://play-lh.googleusercontent.com/uh-YyABDPOU_NdZno8Eq11YkNu6BGNButL4YApda9rzc1YAHcLJyFYv7_yEy-s9Tbg'
+        src={session.user?.image}
         alt='Profile Image'
       />
     </div>

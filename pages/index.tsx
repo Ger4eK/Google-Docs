@@ -1,11 +1,19 @@
 import { DotsVerticalIcon } from '@heroicons/react/outline';
 import { FolderIcon } from '@heroicons/react/solid';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Header from '../components/Header';
+import { useSession } from 'next-auth/react';
+import Login from '../components/Login';
+import { async } from '@firebase/util';
+import { getSession } from 'next-auth/react';
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
+
+  if (!session) return <Login />;
+
   return (
     <div className=''>
       <Head>
