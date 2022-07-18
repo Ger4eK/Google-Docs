@@ -12,7 +12,7 @@ const Login = () => {
       />
       <button
         onClick={signIn}
-        className='w-44 mt-10 p-2 text-white font-semibold bg-googleDocs rounded-sm hover:shadow-lg'
+        className='w-44 mt-10 p-2 text-white font-semibold bg-googleDocs rounded-md hover:shadow-lg'
       >
         Log in
       </button>
