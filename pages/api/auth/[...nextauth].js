@@ -16,4 +16,5 @@ export default NextAuth({
     db: db,
     ...firestoreFunctions,
   }),
+  secret: process.env.NEXTAUTH_SECRET,
 });
