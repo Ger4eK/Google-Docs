@@ -5,6 +5,7 @@ import { getSession, useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import Login from '../../components/Login';
+import TextEditor from '../../components/TextEditor';
 import { db } from '../../firebase.config';
 
 const Doc = () => {
@@ -18,7 +19,6 @@ const Doc = () => {
   const [snapshot, loadingSnapshot] = useDocument(
     doc(db, 'userDocs', session.user.email, 'docs', `${id}`)
   );
-
 
   return (
     <div>
@@ -51,6 +51,8 @@ const Doc = () => {
           className='cursor-pointer h-12 w-12 rounded-full ml-2 mr-3'
         />
       </header>
+
+      <TextEditor />
     </div>
   );
 };

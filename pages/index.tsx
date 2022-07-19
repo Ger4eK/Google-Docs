@@ -17,18 +17,22 @@ import {
   query,
   serverTimestamp,
 } from 'firebase/firestore';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import {
+  useCollection,
+  useCollectionOnce,
+} from 'react-firebase-hooks/firestore';
 import DocumentRow from '../components/DocumentRow';
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
 
-  if (!session) return <Login />
+  if (!session) return <Login />;
 
   const collectionRef = collection(db, 'userDocs', session.user.email, 'docs');
   const [showModal, setShowModal] = useState(false);
 
   const docsQuery = query(collectionRef, orderBy('timestamp', 'desc'));
+
   const [snapshot] = useCollection(docsQuery);
 
   const createDocument = (input: string) => {
@@ -98,10 +102,10 @@ const Home: NextPage = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
