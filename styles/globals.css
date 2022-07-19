@@ -7,4 +7,7 @@
    .menu-hover{
     @apply hover:bg-gray-100 rounded-full p-9 ease-in duration-[250ms] hover:scale-[.85]
    }
+   .option {
+    @apply cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg
+   }
  }

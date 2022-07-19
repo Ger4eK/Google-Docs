@@ -23,15 +23,13 @@ import DocumentRow from '../components/DocumentRow';
 const Home: NextPage = () => {
   const { data: session } = useSession();
 
-  if (!session) return <Login />;
+  if (!session) return <Login />
 
   const collectionRef = collection(db, 'userDocs', session.user.email, 'docs');
   const [showModal, setShowModal] = useState(false);
 
   const docsQuery = query(collectionRef, orderBy('timestamp', 'desc'));
   const [snapshot] = useCollection(docsQuery);
-
-  console.log('snapshot', snapshot);
 
   const createDocument = (input: string) => {
     if (!input) return;
@@ -100,10 +98,10 @@ const Home: NextPage = () => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
